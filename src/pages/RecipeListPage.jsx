@@ -1,11 +1,26 @@
-import { Center, Heading, Image, Text, Box } from "@chakra-ui/react";
+import { useState } from "react";
+import { Center, Heading, Image, Text, Box, Input } from "@chakra-ui/react";
 import { data } from "../utils/data";
 
 export const RecipeListPage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredRecipes = data.hits.filter((hit) => {
+    return hit.recipe.label.toLowerCase().includes(searchTerm.toLowerCase());
+  });
   return (
-    <Center minH="100vh" flexDir="column" gap="20px">
+    <Center
+      minH="100vh"
+      flexDir="column"
+      gap="20px"
+      justifyContent="flex-start"
+    >
       <Heading>Your Recipe App</Heading>
-      {data.hits.map((hit) => {
+      <Input
+        placeholder="Search recipes ...."
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
+      />
+      {filteredRecipes.map((hit) => {
         return (
           <Box key={hit.recipe.label} borderWidth="1px" padding="20px">
             <Heading size="md">{hit.recipe.label}</Heading>
