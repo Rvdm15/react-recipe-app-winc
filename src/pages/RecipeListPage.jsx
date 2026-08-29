@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Center, Heading, Image, Text, Box, Input } from "@chakra-ui/react";
 import { data } from "../utils/data";
 
-export const RecipeListPage = () => {
+export const RecipeListPage = ({ onSelectRecipe }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const filteredRecipes = data.hits.filter((hit) => {
     return hit.recipe.label.toLowerCase().includes(searchTerm.toLowerCase());
@@ -22,7 +22,12 @@ export const RecipeListPage = () => {
       />
       {filteredRecipes.map((hit) => {
         return (
-          <Box key={hit.recipe.label} borderWidth="1px" padding="20px">
+          <Box
+            key={hit.recipe.label}
+            borderWidth="1px"
+            padding="20px"
+            onClick={() => onSelectRecipe(hit.recipe)}
+          >
             <Heading size="md">{hit.recipe.label}</Heading>
             <Image
               src={hit.recipe.image}
